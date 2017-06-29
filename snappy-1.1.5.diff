@@ -1,0 +1,10 @@
+# Patch to fix the name of README file
+diff -urNad snappy-1.1.5-orig/Makefile.am snappy-1.1.5/Makefile.am
+--- snappy-1.1.5-orig/Makefile.am	2017-06-29 04:37:30.000000000 +0300
++++ snappy-1.1.5/Makefile.am	2017-06-29 21:44:14.836745155 +0300
+@@ -28,4 +28,4 @@
+ # Needed by autoconf because we use README.md instead of README.
+ # See http://stackoverflow.com/q/15013672/
+ README: README.md
+-	cat $< > $@.tmp
++	cat $< > $@
