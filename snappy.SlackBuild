@@ -19,7 +19,7 @@
 #
 # Visit SlackPack at http://sotirov-bg.net/slackpack
 # 
-# $Id: snappy.SlackBuild,v 1.5 2017/07/03 17:12:43 gsotirov Exp $
+# $Id: snappy.SlackBuild,v 1.6 2017/07/03 18:27:04 gsotirov Exp $
 #
 
 . ../../slack-package.conf
@@ -73,6 +73,10 @@ cmake -LAH \
 # Build & install
 make -j4 || exit 6
 make DESTDIR=$PKG install || exit 7
+if [ "$LIBDIRSUFFIX" != "" ]; then
+  mv $PKG/usr/lib $PKG/usr/lib$LIBDIRSUFFIX
+  find $PKG/usr/lib${LIBDIRSUFFIX} -type f -name '*.cmake' -exec sed -i "s/\/lib/\/lib${LIBDIRSUFFIX}/g" {} \;
+fi
 cd ..
 
 # Prepare
