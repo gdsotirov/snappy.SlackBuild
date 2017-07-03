@@ -19,7 +19,7 @@
 #
 # Visit SlackPack at http://sotirov-bg.net/slackpack
 # 
-# $Id: snappy.SlackBuild,v 1.4 2017/06/29 18:45:30 gsotirov Exp $
+# $Id: snappy.SlackBuild,v 1.5 2017/07/03 17:12:43 gsotirov Exp $
 #
 
 . ../../slack-package.conf
@@ -61,24 +61,24 @@ if [ -e $CWD/${NAME}-${VERSION}.diff ]; then
 fi
 
 # Configure
-./autogen.sh || exit 51
-CFLAGS=$SLKCFLAGS \
-CXXFLAGS=$SLKCFLAGS \
-./configure --build=${ARCH}-slackware-linux \
-            --host=${ARCH}-slackware-linux \
-            --prefix=/usr \
-            --libdir=/usr/lib${LIBDIRSUFFIX} \
-            --docdir=/usr/doc/${NAME}-${VERSION} \
-            --enable-shared \
-            --disable-static || exit 5
+mkdir build && cd build
+cmake -LAH \
+      -DCMAKE_BUILD_TYPE=Release \
+      -DCMAKE_CXX_FLAGS="$SLKCFLAGS" \
+      -DCMAKE_C_FLAGS="$SLKCFLAGS" \
+      -DCMAKE_INSTALL_PREFIX=/usr \
+      -DCMAKE_VERBOSE_MAKEFILE=TRUE \
+      .. || exit 5
 
 # Build & install
 make -j4 || exit 6
 make DESTDIR=$PKG install || exit 7
+cd ..
 
 # Prepare
 ( cd $PKG; strip_lib )
 ( cd $SRC; create_docs $PKG ${NAME}-${VERSION} )
+( cd $PKG/usr/doc/${NAME}-${VERSION}; mv README.md README )
 
 mkdir -p $PKG/install
 install -m 644 $CWD/slack-desc     $PKG/install/slack-desc
