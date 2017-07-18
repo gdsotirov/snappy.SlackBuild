@@ -19,13 +19,13 @@
 #
 # Visit SlackPack at http://sotirov-bg.net/slackpack
 # 
-# $Id: snappy.SlackBuild,v 1.6 2017/07/03 18:27:04 gsotirov Exp $
+# $Id: snappy.SlackBuild,v 1.7 2017/07/18 07:28:38 gsotirov Exp $
 #
 
 . ../../slack-package.conf
 
 NAME=snappy
-VERSION=1.1.5
+VERSION=1.1.6
 ARCH=${ARCH:-i586}
 BUILD=${BUILD:-1}
 
