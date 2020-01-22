@@ -1,7 +1,7 @@
 # Patch to check for GTest and Gflags in a visible way,
 # add GTEST_BOTH_LIBRARIES for snappy-unittest
 #
-# Copyright (C) 2017 Georgi D. Sotirov <gdsotirov@dir.bg>
+# Copyright (C) 2017-2020 Georgi D. Sotirov <gdsotirov@dir.bg>
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -17,12 +17,12 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# $Id: snappy-1.1.7.diff,v 1.1 2017/08/25 13:06:52 gsotirov Exp $
+# $Id: snappy-1.1.8.diff,v 1.1 2020/01/22 17:36:42 gsotirov Exp $
 #
-diff -urNad snappy-1.1.7-orig/CMakeLists.txt snappy-1.1.7/CMakeLists.txt
---- snappy-1.1.7-orig/CMakeLists.txt	2017-08-25 02:54:23.000000000 +0300
-+++ snappy-1.1.7/CMakeLists.txt	2017-08-25 16:03:01.169417100 +0300
-@@ -37,12 +37,12 @@
+diff -urNad snappy-1.1.8-orig/CMakeLists.txt snappy-1.1.8/CMakeLists.txt
+--- snappy-1.1.8-orig/CMakeLists.txt	2020-01-14 20:58:53.000000000 +0200
++++ snappy-1.1.8/CMakeLists.txt	2020-01-22 19:33:15.714015941 +0200
+@@ -125,12 +125,12 @@
  check_symbol_exists("mmap" "sys/mman.h" HAVE_FUNC_MMAP)
  check_symbol_exists("sysconf" "unistd.h" HAVE_FUNC_SYSCONF)
  
@@ -37,8 +37,8 @@ diff -urNad snappy-1.1.7-orig/CMakeLists.txt snappy-1.1.7/CMakeLists.txt
  if(GFLAGS_FOUND)
    set(HAVE_GFLAGS 1)
  endif(GFLAGS_FOUND)
-@@ -118,7 +118,7 @@
-       "${PROJECT_SOURCE_DIR}/snappy-test.cc"
+@@ -212,7 +212,7 @@
+       "snappy-test.cc"
    )
    target_compile_definitions(snappy_unittest PRIVATE -DHAVE_CONFIG_H)
 -  target_link_libraries(snappy_unittest snappy ${GFLAGS_LIBRARIES})
