@@ -1,7 +1,7 @@
 #!/bin/sh
 #
 # Slackware build script for Snappy from Google
-# Copyright (C) 2016-2017 Georgi D. Sotirov <gdsotirov@dir.bg>
+# Copyright (C) 2016-2020 Georgi D. Sotirov <gdsotirov@dir.bg>
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -19,13 +19,13 @@
 #
 # Visit SlackPack at http://sotirov-bg.net/slackpack
 # 
-# $Id: snappy.SlackBuild,v 1.8 2017/08/25 13:15:39 gsotirov Exp $
+# $Id: snappy.SlackBuild,v 1.9 2020/01/22 17:38:41 gsotirov Exp $
 #
 
 . ../../slack-package.conf
 
 NAME=snappy
-VERSION=1.1.7
+VERSION=1.1.8
 ARCH=${ARCH:-i586}
 BUILD=${BUILD:-1}
 
