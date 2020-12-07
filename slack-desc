@@ -12,4 +12,4 @@ snappy: Snappy is widely used inside Google, in everything from BigTable and
 snappy: MapReduce to our internal RPC systems.
 snappy: Snappy has previously been referred to as "Zippy".
 snappy:
-snappy: Packaged by Georgi D. Sotirov <gdsotirov@dir.bg>
+snappy: Packaged by Georgi D. Sotirov <gdsotirov@gmail.com>
