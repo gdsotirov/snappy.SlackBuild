@@ -1,7 +1,7 @@
-# Patch to check for GTest and Gflags in a visible way,
-# add GTEST_BOTH_LIBRARIES for snappy-unittest
+# Fix compilation errors and a warning with GCC
+# See https://github.com/google/snappy/pull/128
 #
-# Copyright (C) 2017-2020 Georgi D. Sotirov <gdsotirov@gmail.com>
+# Copyright (C) 2021 Georgi D. Sotirov <gdsotirov@gmail.com>
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -19,30 +19,15 @@
 #
 # Visit SlackPack at https://sotirov-bg.net/slackpack/
 #
-diff -urNad snappy-1.1.8-orig/CMakeLists.txt snappy-1.1.8/CMakeLists.txt
---- snappy-1.1.8-orig/CMakeLists.txt	2020-01-14 20:58:53.000000000 +0200
-+++ snappy-1.1.8/CMakeLists.txt	2020-01-22 19:33:15.714015941 +0200
-@@ -125,12 +125,12 @@
- check_symbol_exists("mmap" "sys/mman.h" HAVE_FUNC_MMAP)
- check_symbol_exists("sysconf" "unistd.h" HAVE_FUNC_SYSCONF)
+diff -urNad snappy-1.1.9-orig/snappy.cc snappy-1.1.9/snappy.cc
+--- snappy-1.1.9-orig/snappy.cc	2021-05-05 13:44:08.000000000 +0300
++++ snappy-1.1.9/snappy.cc	2021-05-05 14:31:42.386201218 +0300
+@@ -1014,7 +1014,7 @@
+ }
  
--find_package(GTest QUIET)
-+find_package(GTest)
- if(GTEST_FOUND)
-   set(HAVE_GTEST 1)
- endif(GTEST_FOUND)
- 
--find_package(Gflags QUIET)
-+find_package(Gflags)
- if(GFLAGS_FOUND)
-   set(HAVE_GFLAGS 1)
- endif(GFLAGS_FOUND)
-@@ -212,7 +212,7 @@
-       "snappy-test.cc"
-   )
-   target_compile_definitions(snappy_unittest PRIVATE -DHAVE_CONFIG_H)
--  target_link_libraries(snappy_unittest snappy ${GFLAGS_LIBRARIES})
-+  target_link_libraries(snappy_unittest snappy ${GFLAGS_LIBRARIES} ${GTEST_BOTH_LIBRARIES})
- 
-   if(HAVE_LIBZ)
-     target_link_libraries(snappy_unittest z)
+ SNAPPY_ATTRIBUTE_ALWAYS_INLINE
+-size_t AdvanceToNextTag(const uint8_t** ip_p, size_t* tag) {
++inline size_t AdvanceToNextTag(const uint8_t** ip_p, size_t* tag) {
+   const uint8_t*& ip = *ip_p;
+   // This section is crucial for the throughput of the decompression loop.
+   // The latency of an iteration is fundamentally constrained by the
