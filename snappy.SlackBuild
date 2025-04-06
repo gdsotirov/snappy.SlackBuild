@@ -23,7 +23,7 @@
 . ../../slack-package.conf
 
 NAME=snappy
-VERSION=1.1.9
+VERSION=1.2.2
 ARCH=${ARCH:-i586}
 BUILD=${BUILD:-1}
 
@@ -49,8 +49,10 @@ mkdir --parents $PKG
 
 # Extract the source
 cd $TMP
-tar -xvf $CWD/${NAME}-${VERSION}.tar.?z* || exit 3
+git clone https://github.com/google/snappy.git ${NAME}-${VERSION}
 cd $SRC
+git checkout ${VERSION}
+git submodule update --init
 fix_source
 
 # Apply patches
@@ -61,6 +63,7 @@ fi
 # Configure
 mkdir build && cd build
 cmake -LAH \
+      -DBENCHMARK_ENABLE_INSTALL=OFF \
       -DBUILD_SHARED_LIBS=ON \
       -DCMAKE_BUILD_TYPE=Release \
       -DCMAKE_CXX_FLAGS="$SLKCFLAGS" \
@@ -68,6 +71,7 @@ cmake -LAH \
       -DCMAKE_INSTALL_LIBDIR=/usr/lib${LIBDIRSUFFIX} \
       -DCMAKE_INSTALL_PREFIX=/usr \
       -DCMAKE_VERBOSE_MAKEFILE=TRUE \
+      -DINSTALL_GTEST=OFF \
       .. || exit 5
 
 # Build & install
@@ -105,6 +109,13 @@ PKGNAME=${NAME}-${VERSION}-${ARCH}-${BUILD}${MYIN}
 makepkg --chown n --linkadd y --prepend $PKG_DIR/${PKGNAME}.txz
 md5sum $PKG_DIR/${PKGNAME}.txz > $PKG_DIR/${PKGNAME}.txz.md5
 install --mode 644 $PKG/install/slack-desc $PKG_DIR/${PKGNAME}.txt
+
+# Build source package
+rm --recursive ${SRC}/.git
+cd $TMP
+tar --create --file=${NAME}-${VERSION}.tar ${NAME}-${VERSION}
+gzip ${NAME}-${VERSION}.tar
+mv ${NAME}-${VERSION}.tar.gz $CWD/${NAME}-${VERSION}.tar.gz
 
 # Cleanup (optionally)
 if [ "$1" == "--cleanup" ]; then
